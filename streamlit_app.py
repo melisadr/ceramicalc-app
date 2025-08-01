@@ -31,11 +31,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 # st.title("CeramiCalc")
 # st.write("Diseñá en crudo. Acertá en cocido.")
-col1, col2 = st.columns([2, 1])  # Más espacio para la lista, menos para el input
 
 tabs = st.tabs(["🧮 Calculadora", "📁 Patrones"])
 
 with tabs[0]:  # Calculadora
+    col1, col2 = st.columns([2, 1])  # Más espacio para la lista, menos para el input
     with col1:
         opcion_clave = st.selectbox(
             "Elegí el tipo de material:",
@@ -76,8 +76,32 @@ with tabs[0]:  # Calculadora
     
 
 with tabs[1]:  # Patrones
-    st.markdown("### 📂 Carpeta de patrones")
-    st.write("Explorá o descargá los patrones desde la siguiente carpeta:")
+    st.markdown("### 📂 Patrones descargables")
+    st.write("Explorá o descargá los patrones:")
+
+    patrones = [
+        {
+            "nombre": "Lecherita",
+            "descripcion": "Modelo base para armado manual.",
+            "link": "https://drive.google.com/uc?export=download&id=1kq17a-WxJRdbhLit7v5UWrJxjQVm-tZr"
+        },
+        {
+            "nombre": "Taza",
+            "descripcion": "Modelo con proporciones estándar.",
+            "link": "https://drive.google.com/uc?export=download&id=ID_DEL_ARCHIVO_DE_LA_TAZA"
+        },
+        {
+            "nombre": "Florero",
+            "descripcion": "Muy pinterest, tamaño mediano.",
+            "link": "https://drive.google.com/uc?export=download&id=ID_DEL_ARCHIVO_DEL_CUENCO"
+        }
+    ]
+
+    for patron in patrones:
+        st.markdown(f"""
+                     [⬇️ {patron['nombre']}]( {patron['link']} )
+         *{patron['descripcion']}* 
+        """)
 
 st.markdown("---")  # línea divisoria
 st.markdown(
