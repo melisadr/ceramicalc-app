@@ -25,52 +25,62 @@ opciones = {
 def calcular_crudo(valor_cocido, contraccion_porcentual):
     return valor_cocido / (1 - contraccion_porcentual / 100)
 
-
-st.title("☕ CeramiCalc")
-st.write("Diseñá en crudo. Acertá en cocido.")
+st.markdown("""
+<h1 style='text-align: center; color: #6e3b3b;'>☕ CeramiCalc</h1>
+<p style='text-align: center; font-size:18px;'>Diseñá en crudo. Acertá en cocido.</p>
+""", unsafe_allow_html=True)
+# st.title("CeramiCalc")
+# st.write("Diseñá en crudo. Acertá en cocido.")
 col1, col2 = st.columns([2, 1])  # Más espacio para la lista, menos para el input
 
-# En la columna 1: el selectbox
-with col1:
-    opcion_clave = st.selectbox(
-        "Elegí el tipo de material:",
-        options=list(opciones.keys()),
-        format_func=lambda x: opciones[x][0]
-    )
-with col2:
-    if opcion_clave in ["losa", "gres"]:
-        contraccion = opciones[opcion_clave][1]
-    else:
-        contraccion = st.number_input("% de contracción", min_value=0.0, max_value=100.0, value=12.0)
+tabs = st.tabs(["🧮 Calculadora", "📁 Patrones"])
 
-# --- Selector de pieza ---
-opcion = st.selectbox("Seleccioná una pieza de vajilla:", df_piezas["Pieza"].tolist())
+with tabs[0]:  # Calculadora
+    with col1:
+        opcion_clave = st.selectbox(
+            "Elegí el tipo de material:",
+            options=list(opciones.keys()),
+            format_func=lambda x: opciones[x][0]
+        )
+    with col2:
+        if opcion_clave in ["losa", "gres"]:
+            contraccion = opciones[opcion_clave][1]
+        else:
+            contraccion = st.number_input("% de contracción", min_value=0.0, max_value=100.0, value=12.0)
 
-# --- Mostrar detalles ---
-pieza_sel = df_piezas[df_piezas["Pieza"] == opcion].iloc[0]
-st.markdown(f"**Sugerido:** diámetro {pieza_sel['Diámetro (cm)']} cm, altura {pieza_sel['Altura (cm)']} cm")
+    # --- Selector de pieza ---
+    opcion = st.selectbox("Seleccioná una pieza de vajilla:", df_piezas["Pieza"].tolist())
+
+    # --- Mostrar detalles ---
+    pieza_sel = df_piezas[df_piezas["Pieza"] == opcion].iloc[0]
+    st.markdown(f"**Sugerido:** diámetro {pieza_sel['Diámetro (cm)']} cm, altura {pieza_sel['Altura (cm)']} cm")
 
 
-diametro_default = pieza_sel["diametro_default"]
-altura_default = pieza_sel["altura_default"]
+    diametro_default = pieza_sel["diametro_default"]
+    altura_default = pieza_sel["altura_default"]
 
-col_a1, col_a2 = st.columns([1, 1])
-with col_a1:
-    altura_final = st.number_input("Altura deseada (cm)", min_value=0.0, value=altura_default, key="altura")
-with col_a2:
-    altura_cruda = calcular_crudo(altura_final, contraccion)
-    st.markdown(f"→ **{altura_cruda:.1f} cm** en crudo")
+    col_a1, col_a2 = st.columns([1, 1])
+    with col_a1:
+        altura_final = st.number_input("Altura deseada (cm)", min_value=0.0, value=altura_default, key="altura")
+    with col_a2:
+        altura_cruda = calcular_crudo(altura_final, contraccion)
+        st.markdown(f"→ **{altura_cruda:.1f} cm** en crudo")
 
-col_d1, col_d2 = st.columns([1, 1])
-with col_d1:
-    diametro_final = st.number_input("Diámetro deseado (cm)", min_value=0.0, value=float(diametro_default), key="diametro")
-with col_d2:
-    diametro_crudo = calcular_crudo(diametro_final, contraccion)
-    st.markdown(f"→ **{diametro_crudo:.1f} cm** en crudo")
+    col_d1, col_d2 = st.columns([1, 1])
+    with col_d1:
+        diametro_final = st.number_input("Diámetro deseado (cm)", min_value=0.0, value=float(diametro_default), key="diametro")
+    with col_d2:
+        diametro_crudo = calcular_crudo(diametro_final, contraccion)
+        st.markdown(f"→ **{diametro_crudo:.1f} cm** en crudo")
 
+    
+
+with tabs[1]:  # Patrones
+    st.markdown("### 📂 Carpeta de patrones")
+    st.write("Explorá o descargá los patrones desde la siguiente carpeta:")
 
 st.markdown("---")  # línea divisoria
 st.markdown(
-    "<p style='text-align: center; font-size: 12px;'>Hecho por Melisa Diaz Resquin para Cúprico Taller de Cerámica</p>",
+    "<p style='text-align: center; font-size: 12px;'>Hecho por @meludr (meludiazresquin@gmail.com) para Cúprico Taller de Cerámica</p>",
     unsafe_allow_html=True
 )
