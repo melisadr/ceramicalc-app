@@ -3,14 +3,14 @@ import pandas as pd
 
 # --- Diccionario de datos de las piezas ---
 piezas = [
-    {"Pieza": "Plato de postre", "Diámetro (cm)": "18–20", "Altura (cm)": "1.5–2", "Proporción": "-", "Volumen": "-", "altura_default": 2.0, "diametro_default": 20},
-    {"Pieza": "Plato de taza de café", "Diámetro (cm)": "12–14", "Altura (cm)": "-", "Proporción": "-", "Volumen": "-", "altura_default": 0.0, "diametro_default": 14},
-    {"Pieza": "Plato playo", "Diámetro (cm)": "24–26", "Altura (cm)": "≤ 2.5", "Proporción": "-", "Volumen": "-", "altura_default": 2.5, "diametro_default": 26},
-    {"Pieza": "Plato hondo", "Diámetro (cm)": "22–24", "Altura (cm)": "4–5.5", "Proporción": "1:4 a 1:5", "Volumen": "300–400 ml", "altura_default": 5.5, "diametro_default": 24},
     {"Pieza": "Taza de café", "Diámetro (cm)": "6–7", "Altura (cm)": "5–6", "Proporción": "1:1", "Volumen": "80–120 ml", "altura_default": 6, "diametro_default": 7},
     {"Pieza": "Taza de té", "Diámetro (cm)": "8–9", "Altura (cm)": "6–7", "Proporción": "1:1.2", "Volumen": "180–220 ml", "altura_default": 7, "diametro_default": 9},
     {"Pieza": "Pocillo (espresso)", "Diámetro (cm)": "5–6", "Altura (cm)": "4–5", "Proporción": "1:1", "Volumen": "50–60 ml", "altura_default": 5, "diametro_default": 6},
     {"Pieza": "Bowl de helado", "Diámetro (cm)": "10–12", "Altura (cm)": "6–7", "Proporción": "1:1", "Volumen": "150–250 ml", "altura_default": 7, "diametro_default": 12},
+    {"Pieza": "Plato de postre", "Diámetro (cm)": "18–20", "Altura (cm)": "1.5–2", "Proporción": "-", "Volumen": "-", "altura_default": 2.0, "diametro_default": 20},
+    {"Pieza": "Plato de taza de café", "Diámetro (cm)": "12–14", "Altura (cm)": "-", "Proporción": "-", "Volumen": "-", "altura_default": 0.0, "diametro_default": 14},
+    {"Pieza": "Plato playo", "Diámetro (cm)": "24–26", "Altura (cm)": "≤ 2.5", "Proporción": "-", "Volumen": "-", "altura_default": 2.5, "diametro_default": 26},
+    {"Pieza": "Plato hondo", "Diámetro (cm)": "22–24", "Altura (cm)": "4–5.5", "Proporción": "1:4 a 1:5", "Volumen": "300–400 ml", "altura_default": 5.5, "diametro_default": 24},
     {"Pieza": "Tetera para 1", "Diámetro (cm)": "10", "Altura (cm)": "8–10", "Proporción": "boca angosta", "Volumen": "250–300 ml", "altura_default": 10, "diametro_default": 10},
     {"Pieza": "Tetera para 2", "Diámetro (cm)": "12–14", "Altura (cm)": "10–12", "Proporción": "forma bol", "Volumen": "500–600 ml", "altura_default": 12, "diametro_default": 14},
     {"Pieza": "Tetera para 4", "Diámetro (cm)": "16–18", "Altura (cm)": "14–16", "Proporción": "boca más amplia", "Volumen": "900–1200 ml", "altura_default": 16, "diametro_default": 18},
