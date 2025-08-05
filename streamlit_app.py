@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
-from generar_cono import generar_patron_cono_truncado
+from generar_cono import generar_patron_pdf, generar_patron_png
+import matplotlib.pyplot as plt
+import math
+import numpy as np 
 from PIL import Image
 
 # --- Diccionario de datos de las piezas ---
@@ -76,29 +79,33 @@ with tabs[0]:  # Calculadora
         st.markdown(f"→ **{diametro_crudo:.1f} cm** en crudo")
 
 
-with tabs[1]:  
+with tabs[1]:
     st.header("Generador de patrón para cono truncado")
-    col_b1, col_b2 = st.columns([1, 1])
-    with col_b1:
-        imagen = Image.open("tazaconica.png")
-        st.image(imagen, caption="Cono trucado", use_column_width=True)
-    with col_b2:
-        with st.form("form_cono"):
-            diametro_sup = st.number_input("Diámetro superior (cm)", min_value=1.0, value=8.0)
-            diametro_inf = st.number_input("Diámetro inferior (cm)", min_value=1.0, value=6.0)
-            altura = st.number_input("Altura del cono truncado (cm)", min_value=1.0, value=9.0)
-            submitted = st.form_submit_button("Generar PDF")
+    col1, col2 = st.columns([1, 1])
 
-        if submitted:
-            filename = "patron_cono.pdf"
-            generar_patron_cono_truncado(diametro_sup, diametro_inf, altura, filename)
-            with open(filename, "rb") as file:
-                st.download_button(
-                    label="📥 Descargar patrón en PDF",
-                    data=file,
-                    file_name=filename,
-                    mime="application/pdf"
-                )
+    with col1:
+        imagen = Image.open("tazaconica.png")
+        st.image(imagen, caption="Cono truncado", use_container_width=True)
+
+    with col2:
+        diam_sup = st.number_input("Diámetro superior (cm)", min_value=1.0, value=8.0)
+        diam_inf = st.number_input("Diámetro inferior (cm)", min_value=1.0, value=6.0)
+        altura = st.number_input("Altura (cm)", min_value=1.0, value=9.0)
+
+        if st.button("Generar patrón"):
+            # Vista previa
+            png_buffer, angulo = generar_patron_png(diam_sup, diam_inf, altura)
+            st.subheader(f"Vista previa (ángulo {angulo:.2f}°)")
+            st.image(png_buffer, caption="Patrón 2D (vista previa, no escala real)")
+
+            # PDF a escala real
+            pdf_buffer = generar_patron_pdf(diam_sup, diam_inf, altura)
+            st.download_button(
+                label="📥 Descargar patrón en PDF (escala real)",
+                data=pdf_buffer,
+                file_name="patron_cono_truncado.pdf",
+                mime="application/pdf"
+            )
 
 with tabs[2]:
     # Patrones
