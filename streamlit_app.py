@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+from generar_cono import generar_patron_cono_truncado
+from PIL import Image
 
 # --- Diccionario de datos de las piezas ---
 piezas = [
@@ -32,7 +34,7 @@ st.markdown("""
 # st.title("CeramiCalc")
 # st.write("Diseñá en crudo. Acertá en cocido.")
 
-tabs = st.tabs(["🧮 Calculadora", "📁 Patrones"])
+tabs = st.tabs(["🧮 Calculadora","📐 Patrones", "📁 Descargables"])
 
 with tabs[0]:  # Calculadora
     col1, col2 = st.columns([2, 1])  # Más espacio para la lista, menos para el input
@@ -73,9 +75,33 @@ with tabs[0]:  # Calculadora
         diametro_crudo = calcular_crudo(diametro_final, contraccion)
         st.markdown(f"→ **{diametro_crudo:.1f} cm** en crudo")
 
-    
 
-with tabs[1]:  # Patrones
+with tabs[1]:  
+    st.header("Generador de patrón para cono truncado")
+    col_b1, col_b2 = st.columns([1, 1])
+    with col_b1:
+        imagen = Image.open("tazaconica.png")
+        st.image(imagen, caption="Cono trucado", use_column_width=True)
+    with col_b2:
+        with st.form("form_cono"):
+            diametro_sup = st.number_input("Diámetro superior (cm)", min_value=1.0, value=8.0)
+            diametro_inf = st.number_input("Diámetro inferior (cm)", min_value=1.0, value=6.0)
+            altura = st.number_input("Altura del cono truncado (cm)", min_value=1.0, value=9.0)
+            submitted = st.form_submit_button("Generar PDF")
+
+        if submitted:
+            filename = "patron_cono.pdf"
+            generar_patron_cono_truncado(diametro_sup, diametro_inf, altura, filename)
+            with open(filename, "rb") as file:
+                st.download_button(
+                    label="📥 Descargar patrón en PDF",
+                    data=file,
+                    file_name=filename,
+                    mime="application/pdf"
+                )
+
+with tabs[2]:
+    # Patrones
     st.markdown("### 📂 Patrones descargables")
     st.write("Explorá o descargá los patrones:")
 
